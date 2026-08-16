@@ -1,15 +1,15 @@
 [package]
-name = "kovia-ui"
+name = "kovia-worldbuilding-tool"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
 
-[[bin]]
-name = "kovia-ui-standalone"
-path = "src/main.rs"
-
 [dependencies]
 iced.workspace = true
 iced_wgpu.workspace = true
+iced_winit.workspace = true
+kovia-atlas.workspace = true
 kovia-protocol.workspace = true
+kovia-ui.workspace = true
+wgpu.workspace = true

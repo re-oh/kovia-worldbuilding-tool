@@ -170,7 +170,7 @@ fn context_tab(state: &Kovia) -> Element<'_, Message> {
 }
 
 fn map_tab(state: &Kovia) -> Element<'_, Message> {
-    let attached = state.context_chips.contains(&"Eastern Rift");
+    let attached = state.context_chips.contains(&"Map selection");
     let action = if attached {
         button(
             row![
@@ -193,8 +193,18 @@ fn map_tab(state: &Kovia) -> Element<'_, Message> {
         .width(Fill)
         .padding([7, 9])
         .style(theme::primary_button)
-        .on_press(Message::AddContext("Eastern Rift"))
+        .on_press(Message::AddContext("Map selection"))
     };
+
+    let selection = state.map_snapshot.selected_feature.as_ref().map_or_else(
+        || "No Atlas feature selected".to_owned(),
+        |feature| format!("{} · {}", feature.name, feature.kind),
+    );
+    let layer = state
+        .map_snapshot
+        .selected_layer
+        .as_ref()
+        .map_or("No active layer", |layer| layer.name.as_str());
 
     scrollable(
         column![
@@ -214,16 +224,27 @@ fn map_tab(state: &Kovia) -> Element<'_, Message> {
                     .on_press(Message::RunAction("Area selection mode enabled")),
             ]
             .spacing(5),
-            map_image(430),
             container(
                 column![
-                    text("Eastern Rift").size(11),
+                    text("Live Atlas").size(11),
+                    text(selection).size(9).color(MUTED),
+                    text(layer).size(9).color(MUTED),
                     row![
-                        metric("12", "linked notes"),
-                        metric("3", "entities"),
-                        metric("2", "timeline events"),
+                        metric_owned(
+                            state.map_snapshot.available_layers.len().to_string(),
+                            "layers",
+                        ),
+                        metric_owned(
+                            format!("{:.0}", state.map_snapshot.brush.radius_cells),
+                            "brush cells",
+                        ),
+                        metric_owned(state.map_snapshot.revision.to_string(), "revision",),
                     ]
                     .spacing(12),
+                    text(&state.map_snapshot.status)
+                        .size(8)
+                        .line_height(1.35)
+                        .color(MUTED),
                     action,
                 ]
                 .spacing(9),
@@ -235,6 +256,15 @@ fn map_tab(state: &Kovia) -> Element<'_, Message> {
         .padding(12),
     )
     .height(Fill)
+    .into()
+}
+
+fn metric_owned<'a>(value: String, label: &'static str) -> Element<'a, Message> {
+    row![
+        text(value).size(9).color(TEXT),
+        text(label).size(8).color(MUTED),
+    ]
+    .spacing(4)
     .into()
 }
 

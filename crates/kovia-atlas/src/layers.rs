@@ -3,35 +3,14 @@ use std::collections::{BTreeMap, HashMap};
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
-use uuid::Uuid;
+
+pub use kovia_protocol::{LayerId, RegionCode};
 
 use crate::{
     brush::BrushFalloff,
     coordinates::TileId,
     history::{EditHistory, UndoAction},
 };
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-pub struct LayerId(pub Uuid);
-
-impl LayerId {
-    pub fn new() -> Self {
-        Self(Uuid::new_v4())
-    }
-}
-
-impl Default for LayerId {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-pub struct RegionCode(pub u16);
-
-impl RegionCode {
-    pub const UNASSIGNED: Self = Self(0);
-}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum LayerKind {

@@ -1,0 +1,41 @@
+[workspace]
+members = [
+    "apps/kovia-worldbuilding-tool",
+    "crates/kovia-atlas",
+    "crates/kovia-protocol",
+    "crates/kovia-ui",
+]
+default-members = ["apps/kovia-worldbuilding-tool"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.95"
+version = "0.1.0"
+
+[workspace.dependencies]
+bevy = { version = "0.19.1", default-features = false, features = ["default_app", "3d_bevy_render", "bevy_scene", "std", "multi_threaded"] }
+bitflags = { version = "2.9", features = ["serde"] }
+iced = { git = "https://github.com/iced-rs/iced.git", rev = "2cffa99b395d84fe469b44dccb56bbacd2f1a157", default-features = false, features = ["advanced", "image", "thread-pool", "wayland", "wgpu", "x11"] }
+iced_wgpu = { git = "https://github.com/iced-rs/iced.git", rev = "2cffa99b395d84fe469b44dccb56bbacd2f1a157", default-features = false }
+iced_winit = { git = "https://github.com/iced-rs/iced.git", rev = "2cffa99b395d84fe469b44dccb56bbacd2f1a157", default-features = false, features = ["wayland", "x11"] }
+kovia-atlas = { package = "kovia_atlas", path = "crates/kovia-atlas", default-features = false }
+kovia-protocol = { path = "crates/kovia-protocol" }
+kovia-ui = { path = "crates/kovia-ui" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+uuid = { version = "1", features = ["serde", "v4"] }
+wgpu = "29"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = "debuginfo"

@@ -15,11 +15,11 @@ pub const UNRESOLVED: Color = Color::from_rgb(0.860, 0.750, 0.350);
 pub const CONTRADICTION: Color = Color::from_rgb(0.930, 0.390, 0.340);
 pub const INFERRED: Color = Color::from_rgb(0.660, 0.550, 0.840);
 
-pub const TX02: Font = Font::with_name("TX-02");
-pub const PHOSPHOR: Font = Font::with_name("Phosphor");
+pub const TX02: Font = Font::new("TX-02");
+pub const PHOSPHOR: Font = Font::new("Phosphor");
 
-pub fn palette() -> iced::theme::Palette {
-    iced::theme::Palette {
+pub fn palette() -> iced::theme::palette::Seed {
+    iced::theme::palette::Seed {
         background: BG,
         text: TEXT,
         primary: PRIMARY,

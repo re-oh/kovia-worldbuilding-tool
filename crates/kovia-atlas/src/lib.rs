@@ -7,6 +7,7 @@ pub mod erosion;
 pub mod feature_render;
 pub mod features;
 pub mod history;
+pub mod hybrid;
 pub mod hydrology;
 pub mod interaction;
 pub mod layers;
@@ -16,4 +17,5 @@ pub mod starter_world;
 pub mod streaming;
 pub mod terrain;
 pub mod terrain_render;
+#[cfg(feature = "standalone")]
 pub mod ui;

@@ -2,28 +2,14 @@ use std::collections::BTreeMap;
 
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
+
+pub use kovia_protocol::FeatureId;
 
 use crate::{
     coordinates::SurfacePosition,
     history::{EditHistory, UndoAction},
     layers::LayerId,
 };
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-pub struct FeatureId(pub Uuid);
-
-impl FeatureId {
-    pub fn new() -> Self {
-        Self(Uuid::new_v4())
-    }
-}
-
-impl Default for FeatureId {
-    fn default() -> Self {
-        Self::new()
-    }
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SettlementKind {

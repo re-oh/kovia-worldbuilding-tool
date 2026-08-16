@@ -26,7 +26,7 @@ pub fn view(state: &Kovia) -> Element<'_, Message> {
     .padding([8, 14]);
 
     let conversation = scrollable(
-        container(container(conversation_content()).max_width(820).width(Fill))
+        container(container(conversation_content()).width(820))
             .width(Fill)
             .align_x(alignment::Horizontal::Center)
             .padding([18, 22]),
@@ -50,7 +50,7 @@ fn conversation_content<'a>() -> Element<'a, Message> {
             .size(12)
             .line_height(1.45),
     )
-    .max_width(610)
+    .width(610)
     .padding([9, 11])
     .style(theme::raised);
 
@@ -380,26 +380,22 @@ fn composer(state: &Kovia) -> Element<'_, Message> {
     .spacing(3)
     .align_y(alignment::Vertical::Center);
 
-    let notice: Element<'_, Message> = state.notice.map_or_else(
+    let notice: Element<'_, Message> = state.notice.as_deref().map_or_else(
         || space().height(0).into(),
         |notice| text(notice).size(8).color(MUTED).into(),
     );
 
-    container(
-        container(column![chips, editor, tools, notice].spacing(6))
-            .max_width(860)
-            .width(Fill),
-    )
-    .width(Fill)
-    .align_x(alignment::Horizontal::Center)
-    .padding(Padding {
-        top: 8.0,
-        right: 16.0,
-        bottom: 10.0,
-        left: 16.0,
-    })
-    .style(theme::panel)
-    .into()
+    container(container(column![chips, editor, tools, notice].spacing(6)).width(860))
+        .width(Fill)
+        .align_x(alignment::Horizontal::Center)
+        .padding(Padding {
+            top: 8.0,
+            right: 16.0,
+            bottom: 10.0,
+            left: 16.0,
+        })
+        .style(theme::panel)
+        .into()
 }
 
 fn composer_tool<'a>(
